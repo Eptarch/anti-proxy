@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  tor-proxy:
+    build:
+      context: .
+      dockerfile: tor-proxy.Dockerfile
+    command: "/usr/bin/tor -f /etc/tor/torrc"
+    container_name: tor-proxy
+    image: tor-proxy
+    ports:
+      - 127.0.0.1:53:53/udp
+      - 127.0.0.1:9050:9050/tcp
+    restart: unless-stopped
+    tty: true
+    volumes:
+        - type: bind
+          source: ./torrc
+          target: /etc/tor/torrc
